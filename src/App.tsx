@@ -17,12 +17,13 @@ export default function App() {
   .integer('Decimal ja virou sacanagem'),
 })
 
-  const { register, handleSubmit, formState:{errors} } = useForm<Inputs>({
+  const { register, handleSubmit, reset, formState:{errors} } = useForm<Inputs>({
     resolver: yupResolver(shema)
   });
 
   const onSubmit = useCallback((data) => {
     console.log(data);
+    reset()
  },[]);
  return (
    <>
