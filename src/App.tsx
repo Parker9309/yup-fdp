@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+type Inputs = {
+  name: string,
+  age: number,
+};
+
+export default function App() {
+
+  let shema = yup.object().shape({
+  name: yup.string().required('Obrigatorio porra'),
+  age: yup.number().integer('Tambem obrigatorio').positive().integer(),
+})
+
+  const { register, handleSubmit, formState:{errors} } = useForm<Inputs>({
+    resolver: yupResolver(shema)
+  });
+
+  const onSubmit = useCallback((data) => {
+    console.log(data);
+ },[]);
+ return (
+   <>
+   <h2>FormFodaseSemMao</h2>
+   <form onSubmit={handleSubmit(onSubmit)}>
+     <input
+     type='text'
+     placeholder='Bota o nome filho da pulta'
+     {...register('name')}
+     />
+
+     {errors.name && <span>{errors.name.message}</span>}
+
+      <input
+     type='text'
+     placeholder='Bota a idade filho da pulta'
+     {...register('age')}
+     />
+
+      {errors.age && <span>{errors.age.message}</span>}
+
+     <button type='submit'>Envia caralho</button>
+   </form>
+   </>
+ )
 }
-
-export default App;
