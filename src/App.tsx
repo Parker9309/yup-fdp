@@ -12,7 +12,9 @@ export default function App() {
 
   let shema = yup.object().shape({
   name: yup.string().required('Obrigatorio porra'),
-  age: yup.number().integer('Tambem obrigatorio').positive().integer(),
+  age: yup.number().integer('Tambem obrigatorio')
+  .positive('Bota um numero de verdade')
+  .integer('Decimal ja virou sacanagem'),
 })
 
   const { register, handleSubmit, formState:{errors} } = useForm<Inputs>({
